@@ -1,0 +1,11 @@
+* {
+	font-family: "NotoSans Nerd Font", Consolas, sans-serif;
+}
+
+html, body {
+	height: 100vh;
+}
+
+/* body {
+	display: flex;
+} */

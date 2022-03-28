@@ -4,13 +4,13 @@
 )]
 
 #[tauri::command]
-fn test() -> Result<String, String> {
-  Ok("test worked".into())
+fn load_job_shipment() -> Result<String, String> {
+  Ok("job-shipment loaded".into())
 }
 
 fn main() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![test])
+    .invoke_handler(tauri::generate_handler![load_job_shipment])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }

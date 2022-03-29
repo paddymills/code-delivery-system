@@ -1,60 +1,70 @@
 <script>
 	import {
-		Button,
+		Alert,
 		Card,
 		CardBody,
-		Container,
-		ButtonDropdown,
-		DropdownItem,
-		DropdownMenu,
-		DropdownToggle,
+		Spinner,
 		Styles
 	} from 'sveltestrap';
+	import JobShipSelector from './components/JobShipSelector.svelte';
+	import TabbedView from './components/TabbedView.svelte';
 
 	import { invoke } from '@tauri-apps/api/tauri';
 
-	const jobs = [
-		"1200055",
-		"1200248",
-		"1210105",
-		"1210117",
-	];
-	const shipments = [ 1, 2, 3, 4, ];
+    let jobs = null;
+	let data = null;
 
-	const load_enabled = false;
+	async function init() {
+		await invoke('get_projects')
+			.then((result) => {
+				console.log(result.msg);
+				jobs = result.payload;
+			})
+			.catch((error) => console.error(error));
+	}
 
-	const handleClick = async () => {
-		await invoke('load_job_shipment')
-			.then((message) => console.log(message))
+	async function handleClick(event) {
+		const args = {
+			project: {
+				name: event.detail.job,
+				shipments: [event.detail.shipment]
+			}
+		};
+
+		await invoke('load_job_shipment', args)
+			.then((result) => {
+				console.log(result.msg);
+				data = result.payload;
+			})
 			.catch((error) => console.error(error));
 	};
 </script>
 
-<main class="d-flex flex-column p-5 gap-3">
-	<Container class="d-flex justify-content-center gap-3">
-		<ButtonDropdown>
-			<DropdownToggle color="primary" caret>Job</DropdownToggle>
-			<DropdownMenu>
-				{#each jobs as job}
-					<DropdownItem>{job}</DropdownItem>
-				{/each}
-			</DropdownMenu>
-		</ButtonDropdown>
-		<ButtonDropdown>
-			<DropdownToggle color="primary" caret>Shipment</DropdownToggle>
-			<DropdownMenu>
-				{#each shipments as shipment}
-					<DropdownItem>{shipment}</DropdownItem>
-				{/each}
-			</DropdownMenu>
-		</ButtonDropdown>
-		<Button color="primary" disabled={!load_enabled} on:click={handleClick}>Load</Button>
-	</Container>
-	<Card class="mx-5">
-		<CardBody>
-			<p>test</p>
+<main class="d-flex flex-column align-items-center p-5 gap-3">
+	{#await init()}
+		<Spinner color="primary"/>
+	{:then}
+		<JobShipSelector jobs={jobs} on:load={handleClick} />
+	{:catch error}
+		<Alert color="danger">Failure retreiving jobs: {error}</Alert>
+	{/await}
+	
+	<div class="mx-5 p-3 d-flex justify-content-center border rounded">
+		{#if data}
+			<TabbedView data={data} />
+		{:else}
+			<p class="m-0">no data</p>
+		{/if}
+	</div>		
+	<!-- <Card class="mx-5">
+		<CardBody class="d-flex justify-content-center">
+			{#if data}
+				<TabbedView data={data} />
+			{:else}
+				<p>no data</p>
+			{/if}
 		</CardBody>
-	</Card>
+	</Card> -->
 </main>
 
 <Styles />

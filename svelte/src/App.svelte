@@ -1,11 +1,5 @@
 <script>
-	import {
-		Alert,
-		Card,
-		CardBody,
-		Spinner,
-		Styles
-	} from 'sveltestrap';
+	import { Alert, Spinner, Styles } from 'sveltestrap';
 	import JobShipSelector from './components/JobShipSelector.svelte';
 	import TabbedView from './components/TabbedView.svelte';
 
@@ -55,16 +49,7 @@
 		{:else}
 			<p class="m-0">no data</p>
 		{/if}
-	</div>		
-	<!-- <Card class="mx-5">
-		<CardBody class="d-flex justify-content-center">
-			{#if data}
-				<TabbedView data={data} />
-			{:else}
-				<p>no data</p>
-			{/if}
-		</CardBody>
-	</Card> -->
+	</div>
 </main>
 
 <Styles />

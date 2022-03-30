@@ -1,16 +1,21 @@
-<script>
+<script lang="ts">
 	import { Alert, Button, Icon, Spinner, Styles } from 'sveltestrap';
 	import JobShipSelector from './components/JobShipSelector.svelte';
 	import TabbedView from './components/TabbedView.svelte';
 
 	import { invoke } from '@tauri-apps/api/tauri';
+	interface BackendResultList {
+		msg: string,
+		payload: [any]
+	}
+
 
     let jobs = null;
 	let data = null;
 
 	async function init() {
 		await invoke('get_projects')
-			.then((result) => {
+			.then((result: BackendResultList) => {
 				console.log(result.msg);
 				jobs = result.payload;
 			})
@@ -26,7 +31,7 @@
 		};
 
 		await invoke('load_job_shipment', args)
-			.then((result) => {
+			.then((result: BackendResultList) => {
 				console.log(result.msg);
 				data = result.payload;
 			})

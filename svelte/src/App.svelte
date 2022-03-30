@@ -1,5 +1,5 @@
 <script>
-	import { Alert, Spinner, Styles } from 'sveltestrap';
+	import { Alert, Button, Icon, Spinner, Styles } from 'sveltestrap';
 	import JobShipSelector from './components/JobShipSelector.svelte';
 	import TabbedView from './components/TabbedView.svelte';
 
@@ -43,8 +43,13 @@
 		<Alert color="danger">Failure retreiving jobs: {error}</Alert>
 	{/await}
 	
-	<div class="mx-5 p-3 d-flex justify-content-center border rounded">
+	<div class="p-3 position-relative border rounded">
 		{#if data}
+			<!-- <div class="btn-close btn-outline-primary position-absolute top-0 start-100 translate-middle border rounded" on:click={() => data=null}>
+				<Icon name="x"/>
+			</div> -->
+			<Button class="btn-close position-absolute top-0 start-100 translate-middle" on:click={() => data=null} />
+
 			<TabbedView data={data} />
 		{:else}
 			<p class="m-0">no data</p>

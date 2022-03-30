@@ -15,6 +15,11 @@
 
     const dispatch = createEventDispatcher();
 
+    function handleJobSelect(id) {
+        job = jobs[id];
+        shipment = null;
+    }
+
 	function handleClick() {
         dispatch('load', {
             job: job.name,
@@ -29,7 +34,7 @@
         <DropdownToggle color="primary" caret>{job.name || 'Job'}</DropdownToggle>
         <DropdownMenu>
             {#each jobs as { name }, id}
-                <DropdownItem on:click={() => job=jobs[id]}>{name}</DropdownItem>
+                <DropdownItem on:click={() => handleJobSelect(id)}>{name}</DropdownItem>
             {/each}
         </DropdownMenu>
     </ButtonDropdown>

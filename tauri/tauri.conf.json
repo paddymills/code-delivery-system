@@ -55,8 +55,13 @@
     "windows": [
       {
         "title": "Code Delivery System",
-        "width": 800,
+
+        "width": 860,
         "height": 600,
+        "minWidth": 620,
+        "minHeight": 420,
+
+        "center": true,
         "resizable": true,
         "fullscreen": false
       }

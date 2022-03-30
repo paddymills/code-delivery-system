@@ -32,10 +32,10 @@
                     <tbody>
                         {#each data[wf] as row}
                             <tr>
-                                <td>{ row.matl }</td>
-                                <td>{ row.matl_desc }</td>
-                                <td>{ row.grade }</td>
-                                <td>{ row.program }</td>
+                                <td>{ row.sheet ? row.sheet.matl : "" }</td>
+                                <td>{ row.sheet ? row.sheet.matl_desc : "" }</td>
+                                <td>{ row.sheet ? row.sheet.grade : "" }</td>
+                                <td>{ row.program || "" }</td>
                                 <td>{ row.checked || "" }</td>
                                 <td>{ row.printed || "" }</td>
                             </tr>
@@ -61,10 +61,10 @@
                 <tbody>
                     {#each data.parts as row}
                         <tr>
-                            <td>{ row.grade }</td>
-                            <td>{ row.thk }</td>
-                            <td>{ row.sheet }</td>
-                            <td>{ row.program }</td>
+                            <td>{ row.sheet ? row.sheet.grade : "" }</td>
+                            <td>{ row.sheet ? row.sheet.thk : "" }</td>
+                            <td>{ row.sheet ? row.sheet.ame : "" }</td>
+                            <td>{ row.program || "" }</td>
                             <td>{ row.printed || "" }</td>
                         </tr>
                     {/each}

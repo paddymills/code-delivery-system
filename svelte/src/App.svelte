@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Alert, Button, Spinner, Styles } from 'sveltestrap';
+	import { Alert, Button, Icon, Spinner, Styles } from 'sveltestrap';
 	import JobShipSelector from './components/JobShipSelector.svelte';
 	import TabbedView from './components/TabbedView.svelte';
 
@@ -45,7 +45,10 @@
 	
 	<div class="p-3 position-relative border rounded">
 		{#if data}
-			<Button class="btn-close position-absolute top-0 start-100 translate-middle" on:click={() => data=null} />
+			<div class="position-absolute top-0 end-0 p-1">
+				<Button class="btn-close" style="background: transparent url('icons/filter_icon.svg');"></Button>
+				<Button class="btn-close" on:click={() => data=null} />
+			</div>
 
 			{#key data}
 				<!--

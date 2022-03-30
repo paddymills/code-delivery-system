@@ -4,7 +4,7 @@ use serde::{Serialize, Deserialize};
 #[derive(Serialize, Deserialize)]
 pub struct JobData {
   pub webs: Option<Vec<WebFlangeData>>,
-  pub flgs: Option<Vec<WebFlangeData>>,
+  pub flanges: Option<Vec<WebFlangeData>>,
   pub parts: Option<Vec<PartData>>
 }
 
@@ -93,11 +93,9 @@ impl JobData {
             }
         };
 
-
-        Self {
-            webs: webs,
-            flgs: flanges,
-            parts: Some(vec![
+        let parts = match job.as_str() {
+            "1210105" => None,
+            _ => Some(vec![
                 PartData {
                     grade: "50/50WT2".into(),
                     thk: 0.625,
@@ -120,6 +118,12 @@ impl JobData {
                     printed: Some("kheiser".into())
                 },
             ])
+        };
+
+        Self {
+            webs: webs,
+            flanges: flanges,
+            parts: parts
         }
     }
 }

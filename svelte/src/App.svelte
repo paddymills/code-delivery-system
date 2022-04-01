@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Alert, Button, Icon, Spinner, Styles } from 'sveltestrap';
+	import { Alert, Button, Popover, Spinner, Styles } from 'sveltestrap';
 	import JobShipSelector from './components/JobShipSelector.svelte';
 	import TabbedView from './components/TabbedView.svelte';
 
@@ -46,7 +46,16 @@
 	<div class="p-3 position-relative border rounded">
 		{#if data}
 			<div class="position-absolute top-0 end-0 p-1">
-				<Button class="btn-close" style="background: transparent url('icons/filter_icon.svg');"></Button>
+				<Button id="btn-filter" class="btn-close" style="background: transparent url('icons/filter_heroicon.svg');"></Button>
+				<Popover trigger="focus" placement="left" target="btn-filter" title="Filters">
+					<!--
+						TODO: add filters:
+							- machine
+							- girder group (webs/flanges)
+					-->
+					<p>filters go here</p>
+				</Popover>
+				
 				<Button class="btn-close" on:click={() => data=null} />
 			</div>
 
@@ -55,7 +64,14 @@
 					force TabbedView to be destroyed and recreated on data change
 					needed to render the first tab's active state
 				-->
-				<TabbedView data={data} />
+
+				{#await init()}
+					<Spinner color="primary"/>
+				{:then}
+					<TabbedView data={data} />
+				{:catch error}
+					<Alert color="danger">Failed to retrieve job nesting. { error }</Alert>
+				{/await}
 			{/key}
 		{:else}
 			<p class="m-0">no data</p>

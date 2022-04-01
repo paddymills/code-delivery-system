@@ -9,6 +9,7 @@
 	} from 'sveltestrap';
 
     import { createEventDispatcher } from 'svelte';
+
     export let jobs;
     let job = { name: "Job", shipments: [] };
     let shipment = null;
@@ -26,6 +27,14 @@
             shipment: shipment
         });
 	};
+
+    // for testing
+    import { onMount } from 'svelte';
+    onMount(() => {
+        handleJobSelect(1);
+        shipment = 2;
+        handleClick();
+    });
 </script>
 
 <Container class="d-flex justify-content-center gap-3">

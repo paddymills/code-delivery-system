@@ -1,11 +1,31 @@
+
+<!--
+    TODO: code mover (different interface for production control?)
+    TODO: parts on nest tooltips
+    TODO: program link
+-->
+
+
 <script lang="ts">
-    import { Table, Tooltip } from 'sveltestrap';
+    import { Popover, Table } from 'sveltestrap';
 
     export let tableData: {
         header: string[],
         rows: any,
     };
+
+    let openPartListId = null;
+
+    const partTableData = {
+        header: [ "Part", "Qty" ],
+        rows: [
+            { part: "x1a", qty: 5 },
+            { part: "x1b", qty: 2 },
+            { part: "m2d", qty: 16 },
+        ]
+    };
 </script>
+
 
 <Table hover>
     <thead>
@@ -17,13 +37,32 @@
     </thead>
     <tbody>
         {#each tableData.rows as row}
-            {@const uuid = Math.random().toString(36).slice(-6)}
-            <tr id={`row-${uuid}`}>
+            {@const rowId = `row-${Math.random().toString(36).slice(-6)}`}
+            
+            <tr id={ rowId }>
                 {#each row as col}
                     <td>{ col }</td>
                 {/each}
             </tr>
-            <Tooltip target={`row-${uuid}`} placement="bottom">{uuid}</Tooltip>
+            <Popover trigger="hover" placement="bottom" target={ rowId } title="Part List">
+                <Table>
+                    <thead>
+                        <tr>
+                            {#each partTableData.header as hr}
+                                <th>{ hr }</th>
+                            {/each}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {#each partTableData.rows as row}
+                            <tr>
+                                <td>{ row.part }</td>
+                                <td>{ row.qty }</td>
+                            </tr>
+                        {/each}
+                    </tbody>
+                </Table>
+            </Popover>
         {/each}
     </tbody>
 </Table>

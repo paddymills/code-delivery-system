@@ -1,11 +1,11 @@
 [package]
-name = "code-delivery-system"
+name = "code-delivery-system-app"
 version = "0.1.0"
 description = "Production Control code delivery app"
 authors = ["Patrick Miller"]
 license = "MIT"
 repository = "https://github.com/paddymills/code-delivery-system"
-default-run = "code-delivery-system"    # must match name
+default-run = "code-delivery-system-app"    # must match name
 edition = "2021"
 rust-version = "1.57"
 

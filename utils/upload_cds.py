@@ -66,6 +66,23 @@ class ProgramDataHarvester:
 
         self.app.quit()
 
+    def upload(self):
+        with db.SndbConnection() as sndb:
+            cursor = sndb.cursor()
+            for f in os.listdir("data"):
+                self.data = dict()
+                self.data_file = os.path.join("data", f)
+                self.load_data()
+
+                for prog, val in self.data.items():
+                    cursor.execute("""
+                        INSERT INTO hss.CdsProgram
+                            (ProgramName, CheckedBy, DatePrinted, Comments)
+                        VALUES (?, ?, ?, ?)
+                        """, prog, *val.sql_vals())
+            
+            cursor.commit()
+
     def load_data(self):
         if not os.path.exists(self.data_file):
             return
@@ -200,6 +217,9 @@ class ProgramData:
             p = "{};{}".format(p, "*".join(set(self.non_date_printed)))
 
         return self.checked, str(p), ";".join(set(self.remarks))
+
+    def sql_vals(self):
+        return self.checked, self.printed, ";".join(set(self.remarks))
 
 
 if __name__ == "__main__":

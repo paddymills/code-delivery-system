@@ -3,11 +3,7 @@
   windows_subsystem = "windows"
 )]
 
-mod projects;
-use projects::{Project, test_data};
-
-mod job_data;
-use job_data::JobData;
+use cds::{Project, test_data, JobData};
 
 use serde::{Serialize, Deserialize};
 use std::fmt::Write;
